@@ -46,7 +46,7 @@ soup = BeautifulSoup(response.content, "html.parser")
 
 # Find the elements containing the press release data
 
-press_release_elements_links = soup.find_all("div", class_="views-element-container")
+# press_release_elements_links = soup.find_all("div", class_="views-element-container")
 
 # for press_release in press_release_elements:
 #     press_release.find("h1", class_="title").text
@@ -61,23 +61,44 @@ global_url = "https://www.societegenerale.com"
 news_df = pd.DataFrame()
 i = 0
 for link in press_release_elements:
+    # if
+    
     print(i)
     i = i+1
-    press_release_url = link['href']  # Extract the URL of the press release
-    press_release_response = requests.get(global_url + press_release_url)
-    press_release_soup = BeautifulSoup(press_release_response.content, 'html.parser') 
+    #press_release_url = link['href']  # Extract the URL of the press release
+    #print(press_release_url)
+    #print(global_url + press_release_url)
+    # press_release_response = requests.get(global_url + link['href'])
+    print(global_url + link['href'])
+    # print(press_release_response)
+
+    press_release_soup = BeautifulSoup(requests.get(global_url + link['href']).content, 'html.parser') 
+
+    # BeautifulSoup(requests.get(global_url+press_release_elements[2]['href']).content, 'html.parser')
+    # print(press_release_soup)
     # press_release_response = requests.get(press_release_url)
 
-    print(press_release_url)
-    pr_articles = press_release_soup.find(class_="layout-container")
+    #print(press_release_url)
+    # pr_articles = press_release_soup.find(class_="layout-container")
 
-    inter_df = pd.DataFrame()
+    # print(pr_articles)
+    # print(pr_articles.find("h1", class_="title"))
+    try:
 
-    inter_df["Title"] = pr_articles.find("h1", class_="title").text
-    inter_df["Date"] = pr_articles.find("span", class_="date").text
-    inter_df["Content"]= pr_articles.find("p", class_="CPChapo").text
+        inter_df = pd.DataFrame()
 
-    news_df = pd.concat([news_df, inter_df], axis = 0)
+        # print(press_release_soup.find("h1", class_="title").text)
+
+        # inter_df["checking"] = 0
+        inter_df["Title"] = pd.Series(press_release_soup.find("h1", class_="title").text)
+        inter_df["Date"] = pd.Series(press_release_soup.find("span", class_="date").text)
+        inter_df["Content"]= pd.Series(press_release_soup.find("p", class_="CPChapo").text)
+
+        news_df = pd.concat([news_df, inter_df], axis = 0)
+        print(inter_df)
+    
+    except:
+        pass
 
 
 
@@ -97,3 +118,6 @@ for link in press_release_elements:
 #     print("Date:", date)
 #     print("Content:", content)
 #     print("------------------------------")
+
+
+# BeautifulSoup(requests.get(global_url+press_release_elements[2]['href']).content, 'html.parser').find("p", class_="CPChapo").text
