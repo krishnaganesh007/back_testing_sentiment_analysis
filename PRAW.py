@@ -1,5 +1,5 @@
-import pandas as pd
-check_df = pd.read_csv("./dating_data.csv")
+# import pandas as pd
+# check_df = pd.read_csv("./dating_data.csv")
 
 
 import requests
@@ -12,7 +12,7 @@ response.json()
 
 
 import praw
-reddit = praw.Reddit(client_id='CmdiukiJLVJ3XuqG6jp9kQ', client_secret='zuLe30DkKPPfL1JA6yYaaLpvH8Y9Lw', user_agent='krishnaScrapes')
+reddit = praw.Reddit(client_id='', client_secret='', user_agent='krishnaScrapes')
 
 
 hot_posts = reddit.subreddit('MachineLearning').hot(limit=10)
